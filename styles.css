@@ -1,0 +1,462 @@
+body {
+    width: 380px;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+
+    /* 全局时间选择器样式变量 */
+    --webkit-datetime-edit-font-size: 8px;
+    --webkit-datetime-edit-border-width: 1px;
+    font-size: 10px; /* 影响所有子元素的基础字体大小 */
+}
+
+.container {
+    padding: 15px;
+}
+
+h2 {
+    margin: 0 0 15px 0;
+    color: #333;
+    text-align: center;
+    font-size: 18px;
+}
+
+h3 {
+    margin: 0 0 10px 0;
+    color: #555;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.section {
+    margin-bottom: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.input-group {
+    margin-bottom: 10px;
+}
+
+.input-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.input-group.half {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 11px;
+    color: #666;
+    font-weight: 500;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 4px 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 12px;
+    box-sizing: border-box;
+    line-height: 1.2;
+}
+
+/* 专门优化时间输入框 */
+.input-group input[type="time"] {
+    font-size: 11px !important;
+    padding: 3px 4px !important;
+    height: 24px !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0 !important;
+    font-weight: normal !important;
+
+    /* 移除缩放，保持输入框文字清晰 */
+    zoom: 1;
+    transform: none;
+}
+
+/* 时间输入框的下拉箭头和选择器优化 */
+.input-group input[type="time"]::-webkit-calendar-picker-indicator {
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+}
+
+/* 时间选择器下拉面板样式优化 */
+input[type="time"]::-webkit-datetime-edit-ampm-field,
+input[type="time"]::-webkit-datetime-edit-day-field,
+input[type="time"]::-webkit-datetime-edit-hour-field,
+input[type="time"]::-webkit-datetime-edit-millisecond-field,
+input[type="time"]::-webkit-datetime-edit-minute-field,
+input[type="time"]::-webkit-datetime-edit-month-field,
+input[type="time"]::-webkit-datetime-edit-second-field,
+input[type="time"]::-webkit-datetime-edit-week-field,
+input[type="time"]::-webkit-datetime-edit-year-field {
+    font-size: 8px !important;
+    padding: 1px 2px !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+/* 时间选择器弹出面板 */
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+}
+
+/* 尝试控制时间选择器弹出面板的样式 */
+::-webkit-datetime-edit-fields-wrapper {
+    font-size: 8px !important;
+}
+
+/* 全局时间选择器样式重写 */
+input[type="time"] {
+    color-scheme: light;
+}
+
+/* 针对时间选择器的全局样式 */
+* {
+    --time-picker-font-size: 8px;
+    --time-picker-border-width: 1px;
+}
+
+/* 时间选择器内部元素样式控制 */
+input[type="time"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="time"]::-webkit-clear-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-group input[type="time"]::-webkit-datetime-edit {
+    font-size: 11px !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.input-group input[type="time"]::-webkit-datetime-edit-fields-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.input-group input[type="time"]::-webkit-datetime-edit-hour-field,
+.input-group input[type="time"]::-webkit-datetime-edit-minute-field {
+    font-size: 11px !important;
+    padding: 0 2px !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    min-width: 16px !important;
+    text-align: center !important;
+}
+
+.input-group input[type="time"]::-webkit-datetime-edit-text {
+    font-size: 11px !important;
+    padding: 0 1px !important;
+}
+
+/* Firefox时间输入框优化 */
+@-moz-document url-prefix() {
+    .input-group input[type="time"] {
+        font-size: 9px;
+        padding: 2px 3px;
+        height: 22px;
+    }
+}
+
+/* 通用时间输入框样式重置 */
+.input-group input[type="time"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+    background-color: white;
+    color: #333;
+}
+
+.input-group input[type="time"]:focus {
+    border-color: #2196F3;
+    box-shadow: 0 0 0 1px rgba(33, 150, 243, 0.3);
+    outline: none;
+}
+
+.input-group select {
+    height: 24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: white;
+    cursor: pointer;
+}
+
+.input-group select option {
+    font-size: 10px;
+    padding: 1px 3px;
+    line-height: 1.1;
+    background-color: white;
+}
+
+/* 针对Chrome的特殊优化 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .input-group select {
+        font-size: 9px;
+        padding: 3px 4px;
+    }
+
+    .input-group select option {
+        font-size: 9px;
+        padding: 1px 2px;
+    }
+
+    /* Chrome中时间输入框的特殊优化 */
+    .input-group input[type="time"] {
+        font-size: 10px !important;
+        padding: 3px 4px !important;
+        height: 24px !important;
+        line-height: 1.2 !important;
+        zoom: 1 !important;
+        font-weight: normal !important;
+    }
+
+    .input-group input[type="time"]::-webkit-datetime-edit {
+        font-size: 10px !important;
+        line-height: 1.2 !important;
+    }
+
+    .input-group input[type="time"]::-webkit-datetime-edit-hour-field,
+    .input-group input[type="time"]::-webkit-datetime-edit-minute-field {
+        font-size: 10px !important;
+        min-width: 14px !important;
+        max-width: 18px !important;
+    }
+
+    .input-group input[type="time"]::-webkit-datetime-edit-text {
+        font-size: 10px !important;
+    }
+
+    .input-group input[type="time"]::-webkit-calendar-picker-indicator {
+        width: 10px !important;
+        height: 10px !important;
+        margin-left: 2px !important;
+        padding: 0 !important;
+    }
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    flex: 1;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #45a049;
+}
+
+.btn-secondary {
+    background-color: #f44336;
+    color: white;
+    flex: 1;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: #da190b;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#selectElement {
+    margin-top: 5px;
+    background-color: #2196F3;
+    color: white;
+    width: 100%;
+}
+
+#selectElement:hover {
+    background-color: #1976D2;
+}
+
+.button-row {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.button-row button {
+    flex: 1;
+}
+
+.btn-test {
+    background-color: #FF9800;
+    color: white;
+    font-size: 11px;
+}
+
+.btn-test:hover {
+    background-color: #F57C00;
+}
+
+.btn-refresh {
+    background-color: #9C27B0;
+    color: white;
+    font-size: 11px;
+}
+
+.btn-refresh:hover {
+    background-color: #7B1FA2;
+}
+
+.btn-mini {
+    background-color: #607D8B;
+    color: white;
+    font-size: 9px;
+    padding: 3px 6px;
+    margin-top: 2px;
+    width: 100%;
+}
+
+.btn-mini:hover {
+    background-color: #455A64;
+}
+
+.time-info {
+    background-color: #e3f2fd;
+    border: 1px solid #2196F3;
+    border-radius: 3px;
+    padding: 6px 8px;
+    margin-top: 8px;
+    font-size: 10px;
+    color: #1976D2;
+}
+
+.time-info.warning {
+    background-color: #fff3e0;
+    border-color: #ff9800;
+    color: #f57c00;
+}
+
+.time-info.error {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #d32f2f;
+}
+
+
+
+.selected-info {
+    background-color: #e8f5e8;
+    padding: 5px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    margin-top: 5px;
+    border-left: 3px solid #4CAF50;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.status-item {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+}
+
+.status-label {
+    display: block;
+    color: #666;
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+
+.status-value {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    font-size: 12px;
+}
+
+.checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    color: #666;
+    cursor: pointer;
+    flex: 1;
+    min-width: 100px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: auto;
+    margin-right: 4px;
+    margin-bottom: 0;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #666;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 6px;
+    margin-bottom: 0;
+}
+
+.auto-clicker-highlight {
+    outline: 3px solid #ff6b6b !important;
+    outline-offset: 2px !important;
+    background-color: rgba(255, 107, 107, 0.1) !important;
+    transition: all 0.3s ease !important;
+}

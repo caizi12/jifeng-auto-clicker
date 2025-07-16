@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极蜂自动点击器测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+        
+        .click-counter {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 5px 10px;
+            background: #e9ecef;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .form-section {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        input[type="text"], input[type="email"] {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 200px;
+        }
+        
+        .dynamic-content {
+            min-height: 100px;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .hidden { display: none; }
+        .highlight { background: yellow; }
+    </style>
+</head>
+<body>
+    <h1>极蜂自动点击器测试页面</h1>
+    <p>这个页面包含各种类型的按钮和元素，用于测试自动点击器的功能。</p>
+
+    <div class="test-section">
+        <h2>基础按钮测试</h2>
+        <button id="basic-btn" class="btn-primary" onclick="incrementCounter('basic')">
+            基础按钮 <span id="basic-counter" class="click-counter">0</span>
+        </button>
+        
+        <button class="btn-success" onclick="incrementCounter('success')">
+            成功按钮 <span id="success-counter" class="click-counter">0</span>
+        </button>
+        
+        <button class="btn-warning" onclick="incrementCounter('warning')">
+            警告按钮 <span id="warning-counter" class="click-counter">0</span>
+        </button>
+        
+        <button class="btn-danger" onclick="incrementCounter('danger')">
+            危险按钮 <span id="danger-counter" class="click-counter">0</span>
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>属性选择器测试</h2>
+        <button type="button" data-action="test1" onclick="incrementCounter('attr1')">
+            数据属性按钮 <span id="attr1-counter" class="click-counter">0</span>
+        </button>
+        
+        <button name="test-button" onclick="incrementCounter('attr2')">
+            名称属性按钮 <span id="attr2-counter" class="click-counter">0</span>
+        </button>
+        
+        <button title="这是一个测试按钮" onclick="incrementCounter('attr3')">
+            标题属性按钮 <span id="attr3-counter" class="click-counter">0</span>
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>表单元素测试</h2>
+        <div class="form-section">
+            <input type="text" id="username" placeholder="用户名">
+            <input type="email" id="email" placeholder="邮箱">
+            <button type="submit" onclick="incrementCounter('submit')">
+                提交表单 <span id="submit-counter" class="click-counter">0</span>
+            </button>
+            <button type="reset" onclick="resetForm()">重置表单</button>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>动态内容测试</h2>
+        <button onclick="addDynamicButton()" class="btn-info">添加动态按钮</button>
+        <button onclick="removeDynamicButtons()" class="btn-warning">清除动态按钮</button>
+        
+        <div id="dynamic-container" class="dynamic-content">
+            <p>动态按钮将出现在这里</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>复杂选择器测试</h2>
+        <div class="complex-container">
+            <div class="nested-div">
+                <span class="nested-span">
+                    <button class="nested-button" onclick="incrementCounter('nested')">
+                        嵌套按钮 <span id="nested-counter" class="click-counter">0</span>
+                    </button>
+                </span>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button class="group-btn first" onclick="incrementCounter('group1')">
+                组按钮1 <span id="group1-counter" class="click-counter">0</span>
+            </button>
+            <button class="group-btn second" onclick="incrementCounter('group2')">
+                组按钮2 <span id="group2-counter" class="click-counter">0</span>
+            </button>
+            <button class="group-btn third" onclick="incrementCounter('group3')">
+                组按钮3 <span id="group3-counter" class="click-counter">0</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>测试说明</h2>
+        <ol>
+            <li><strong>选择元素测试：</strong>点击插件的"选择元素"按钮，然后点击页面上的任意按钮</li>
+            <li><strong>选择器回填测试：</strong>检查选择器是否正确回填到输入框中</li>
+            <li><strong>测试选择器：</strong>使用"测试选择器"按钮验证选择器是否有效</li>
+            <li><strong>自动点击测试：</strong>设置间隔时间，开始自动点击，观察计数器变化</li>
+            <li><strong>刷新功能测试：</strong>如果选择器没有回填，点击"刷新"按钮</li>
+        </ol>
+        
+        <h3>常用选择器示例：</h3>
+        <ul>
+            <li><code>#basic-btn</code> - 基础按钮（ID选择器）</li>
+            <li><code>.btn-success</code> - 成功按钮（类选择器）</li>
+            <li><code>button[data-action="test1"]</code> - 数据属性按钮</li>
+            <li><code>button[type="submit"]</code> - 提交按钮</li>
+            <li><code>.nested-button</code> - 嵌套按钮</li>
+            <li><code>.group-btn.first</code> - 第一个组按钮</li>
+        </ul>
+    </div>
+
+    <script>
+        let counters = {};
+        let dynamicButtonCount = 0;
+
+        function incrementCounter(type) {
+            if (!counters[type]) {
+                counters[type] = 0;
+            }
+            counters[type]++;
+            
+            const counterElement = document.getElementById(type + '-counter');
+            if (counterElement) {
+                counterElement.textContent = counters[type];
+                
+                // 添加视觉反馈
+                counterElement.style.background = '#28a745';
+                counterElement.style.color = 'white';
+                setTimeout(() => {
+                    counterElement.style.background = '#e9ecef';
+                    counterElement.style.color = 'black';
+                }, 200);
+            }
+            
+            console.log(`${type} 按钮被点击，当前计数: ${counters[type]}`);
+        }
+
+        function resetForm() {
+            document.getElementById('username').value = '';
+            document.getElementById('email').value = '';
+            console.log('表单已重置');
+        }
+
+        function addDynamicButton() {
+            dynamicButtonCount++;
+            const container = document.getElementById('dynamic-container');
+            
+            const button = document.createElement('button');
+            button.className = 'btn-info dynamic-btn';
+            button.onclick = () => incrementCounter('dynamic' + dynamicButtonCount);
+            button.innerHTML = `动态按钮${dynamicButtonCount} <span id="dynamic${dynamicButtonCount}-counter" class="click-counter">0</span>`;
+            
+            container.appendChild(button);
+            console.log(`添加了动态按钮${dynamicButtonCount}`);
+        }
+
+        function removeDynamicButtons() {
+            const container = document.getElementById('dynamic-container');
+            const dynamicButtons = container.querySelectorAll('.dynamic-btn');
+            dynamicButtons.forEach(btn => btn.remove());
+            
+            container.innerHTML = '<p>动态按钮将出现在这里</p>';
+            dynamicButtonCount = 0;
+            console.log('清除了所有动态按钮');
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('测试页面加载完成，可以开始测试极蜂自动点击器');
+        });
+    </script>
+</body>
+</html>

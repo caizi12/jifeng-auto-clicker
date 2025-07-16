@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间控制功能测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #1976D2;
+        }
+        .result {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .error {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+        .info {
+            background: #e3f2fd;
+            border-color: #2196F3;
+        }
+        .time-display {
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .countdown {
+            font-size: 24px;
+            color: #f44336;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>极蜂自动点击器 - 时间控制功能测试</h1>
+    
+    <div class="test-section">
+        <h2>当前时间信息</h2>
+        <div class="time-display" id="currentTime">--:--:--</div>
+        <div>当前日期: <span id="currentDate"></span></div>
+        <div>时间戳: <span id="timestamp"></span></div>
+    </div>
+
+    <div class="test-section">
+        <h2>时间控制测试</h2>
+        <p>这个页面用于测试时间控制功能是否正常工作。</p>
+        
+        <h3>测试步骤：</h3>
+        <ol>
+            <li>设置一个很短的时间范围（比如当前时间+1分钟）</li>
+            <li>启动自动点击</li>
+            <li>观察是否在指定时间自动停止</li>
+        </ol>
+        
+        <h3>快速测试按钮：</h3>
+        <button class="test-button" onclick="setTest1Minute()">设置1分钟后结束</button>
+        <button class="test-button" onclick="setTest2Minutes()">设置2分钟后结束</button>
+        <button class="test-button" onclick="setTest30Seconds()">设置30秒后结束</button>
+        <button class="test-button" onclick="setTestCrossDay()">设置跨天测试</button>
+        
+        <div id="testResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>倒计时测试</h2>
+        <p>设置一个倒计时，模拟时间控制的行为：</p>
+        <button class="test-button" onclick="startCountdown(60)">1分钟倒计时</button>
+        <button class="test-button" onclick="startCountdown(30)">30秒倒计时</button>
+        <button class="test-button" onclick="stopCountdown()">停止倒计时</button>
+        
+        <div class="countdown" id="countdown" style="display: none;">--:--</div>
+        <div id="countdownResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>时间计算测试</h2>
+        <div>
+            <label>开始时间: <input type="time" id="testStartTime"></label>
+            <label>结束时间: <input type="time" id="testEndTime"></label>
+            <label>跨天: 
+                <select id="testCrossDay">
+                    <option value="0">今天</option>
+                    <option value="1">明天</option>
+                </select>
+            </label>
+            <button class="test-button" onclick="calculateDuration()">计算时长</button>
+        </div>
+        <div id="durationResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>测试用按钮</h2>
+        <p>这些按钮可以用来测试自动点击功能：</p>
+        <button class="test-button" id="testBtn1">测试按钮 1</button>
+        <button class="test-button" id="testBtn2">测试按钮 2</button>
+        <button class="test-button" id="testBtn3">测试按钮 3</button>
+        
+        <div>点击次数: <span id="clickCount">0</span></div>
+        <button class="test-button" onclick="resetClickCount()">重置计数</button>
+    </div>
+
+    <script>
+        let countdownInterval = null;
+        let clickCount = 0;
+
+        // 更新当前时间
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+            document.getElementById('currentDate').textContent = now.toLocaleDateString();
+            document.getElementById('timestamp').textContent = now.getTime();
+        }
+
+        // 设置测试时间
+        function setTest1Minute() {
+            const now = new Date();
+            const start = new Date(now.getTime() + 5000); // 5秒后开始
+            const end = new Date(now.getTime() + 65000);   // 65秒后结束
+            
+            showTestResult(`测试设置：
+                开始时间: ${start.toLocaleTimeString()}
+                结束时间: ${end.toLocaleTimeString()}
+                运行时长: 1分钟
+                请在插件中设置这些时间进行测试`);
+        }
+
+        function setTest2Minutes() {
+            const now = new Date();
+            const start = new Date(now.getTime() + 5000);  // 5秒后开始
+            const end = new Date(now.getTime() + 125000);  // 125秒后结束
+            
+            showTestResult(`测试设置：
+                开始时间: ${start.toLocaleTimeString()}
+                结束时间: ${end.toLocaleTimeString()}
+                运行时长: 2分钟`);
+        }
+
+        function setTest30Seconds() {
+            const now = new Date();
+            const start = new Date(now.getTime() + 2000);  // 2秒后开始
+            const end = new Date(now.getTime() + 32000);   // 32秒后结束
+            
+            showTestResult(`测试设置：
+                开始时间: ${start.toLocaleTimeString()}
+                结束时间: ${end.toLocaleTimeString()}
+                运行时长: 30秒`);
+        }
+
+        function setTestCrossDay() {
+            const now = new Date();
+            const start = new Date();
+            start.setHours(23, 58, 0, 0);
+            const end = new Date();
+            end.setHours(0, 2, 0, 0);
+            end.setDate(end.getDate() + 1);
+            
+            showTestResult(`跨天测试设置：
+                开始时间: ${start.toLocaleTimeString()}
+                结束时间: ${end.toLocaleTimeString()}（次日）
+                运行时长: 4分钟（跨天）`);
+        }
+
+        function showTestResult(message) {
+            const result = document.getElementById('testResult');
+            result.textContent = message;
+            result.style.display = 'block';
+            result.className = 'result info';
+        }
+
+        // 倒计时功能
+        function startCountdown(seconds) {
+            stopCountdown();
+            
+            const countdownEl = document.getElementById('countdown');
+            const resultEl = document.getElementById('countdownResult');
+            
+            countdownEl.style.display = 'block';
+            resultEl.style.display = 'none';
+            
+            let remaining = seconds;
+            
+            function updateCountdown() {
+                const minutes = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (remaining <= 0) {
+                    stopCountdown();
+                    resultEl.textContent = '倒计时结束！这就是时间控制应该的行为。';
+                    resultEl.className = 'result';
+                    resultEl.style.display = 'block';
+                    return;
+                }
+                
+                remaining--;
+            }
+            
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        function stopCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            document.getElementById('countdown').style.display = 'none';
+        }
+
+        // 计算时长
+        function calculateDuration() {
+            const startTime = document.getElementById('testStartTime').value;
+            const endTime = document.getElementById('testEndTime').value;
+            const crossDay = parseInt(document.getElementById('testCrossDay').value);
+            
+            if (!startTime || !endTime) {
+                document.getElementById('durationResult').textContent = '请设置开始时间和结束时间';
+                document.getElementById('durationResult').className = 'result error';
+                document.getElementById('durationResult').style.display = 'block';
+                return;
+            }
+            
+            const [startHour, startMinute] = startTime.split(':').map(Number);
+            const [endHour, endMinute] = endTime.split(':').map(Number);
+            
+            const startDate = new Date();
+            startDate.setHours(startHour, startMinute, 0, 0);
+            
+            const endDate = new Date();
+            endDate.setHours(endHour, endMinute, 0, 0);
+            if (crossDay === 1) {
+                endDate.setDate(endDate.getDate() + 1);
+            }
+            
+            const durationMs = endDate.getTime() - startDate.getTime();
+            const durationMinutes = Math.floor(durationMs / 60000);
+            const hours = Math.floor(durationMinutes / 60);
+            const minutes = durationMinutes % 60;
+            
+            let result = `时长计算结果：
+                开始: ${startDate.toLocaleTimeString()}
+                结束: ${endDate.toLocaleTimeString()}${crossDay ? '（次日）' : ''}
+                时长: ${hours}小时${minutes}分钟`;
+            
+            if (durationMs <= 0) {
+                result += '\n⚠️ 结束时间早于或等于开始时间！';
+            }
+            
+            document.getElementById('durationResult').textContent = result;
+            document.getElementById('durationResult').className = 'result';
+            document.getElementById('durationResult').style.display = 'block';
+        }
+
+        // 测试按钮点击
+        function setupTestButtons() {
+            ['testBtn1', 'testBtn2', 'testBtn3'].forEach(id => {
+                document.getElementById(id).addEventListener('click', function() {
+                    clickCount++;
+                    document.getElementById('clickCount').textContent = clickCount;
+                    this.style.backgroundColor = '#4CAF50';
+                    setTimeout(() => {
+                        this.style.backgroundColor = '#2196F3';
+                    }, 200);
+                });
+            });
+        }
+
+        function resetClickCount() {
+            clickCount = 0;
+            document.getElementById('clickCount').textContent = clickCount;
+        }
+
+        // 初始化
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+        setupTestButtons();
+
+        // 设置默认测试时间
+        const now = new Date();
+        document.getElementById('testStartTime').value = 
+            now.getHours().toString().padStart(2, '0') + ':' + 
+            now.getMinutes().toString().padStart(2, '0');
+        
+        const endTime = new Date(now.getTime() + 5 * 60000); // 5分钟后
+        document.getElementById('testEndTime').value = 
+            endTime.getHours().toString().padStart(2, '0') + ':' + 
+            endTime.getMinutes().toString().padStart(2, '0');
+    </script>
+</body>
+</html>

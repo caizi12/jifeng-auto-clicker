@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极蜂自动点击器 - 调试版</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>极蜂自动点击器</h1>
+        </div>
+
+        <div class="section">
+            <h3>目标元素</h3>
+            <div class="input-group">
+                <label for="selector">CSS选择器或XPath:</label>
+                <input type="text" id="selector" placeholder="例如: #submit-btn 或 //button[@id='submit']">
+            </div>
+            <div class="button-row">
+                <button id="selectElement">选择元素</button>
+                <button id="testSelector" class="btn-test">测试选择器</button>
+                <button id="refreshSelection" class="btn-refresh">刷新</button>
+            </div>
+            <div id="selectedInfo" class="selected-info" style="display: none;">
+                <small>已选择: <span id="selectedText"></span></small>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>点击设置</h3>
+            <div class="input-row">
+                <div class="input-group half">
+                    <label for="interval">间隔时间 (毫秒):</label>
+                    <input type="number" id="interval" value="1000" min="1" max="60000">
+                </div>
+                <div class="input-group half">
+                    <label for="maxClicks">最大点击次数:</label>
+                    <input type="number" id="maxClicks" value="0" min="0" placeholder="0=无限制">
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>时间控制</h3>
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" id="enableTimeControl"> 启用时间控制
+                </label>
+            </div>
+            <div id="timeControlPanel" style="display: none;">
+                <div class="input-row">
+                    <div class="input-group half">
+                        <label for="startTime">开始时间:</label>
+                        <div class="time-selector">
+                            <select id="startHour" class="time-select">
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                            <span class="time-separator">:</span>
+                            <select id="startMinute" class="time-select">
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                        <button id="setCurrentTime" class="btn-mini">当前时间</button>
+                    </div>
+                    <div class="input-group half">
+                        <label for="quickDuration">运行时长:</label>
+                        <select id="quickDuration">
+                            <option value="0">手动设置</option>
+                            <option value="1">1分钟</option>
+                            <option value="2">2分钟</option>
+                            <option value="3">3分钟</option>
+                            <option value="5">5分钟</option>
+                            <option value="10">10分钟</option>
+                            <option value="15">15分钟</option>
+                            <option value="30">30分钟</option>
+                            <option value="60">1小时</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group half">
+                        <label for="endTime">结束时间:</label>
+                        <div class="time-selector">
+                            <select id="endHour" class="time-select">
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                            <span class="time-separator">:</span>
+                            <select id="endMinute" class="time-select">
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group half">
+                        <label for="crossDay">跨天设置:</label>
+                        <select id="crossDay">
+                            <option value="0">今天</option>
+                            <option value="1">明天</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="time-info" id="timeInfo" style="display: none;">
+                    <small id="timeInfoText"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>控制</h3>
+            <div class="button-row">
+                <button id="startBtn" class="btn-primary">开始点击</button>
+                <button id="stopBtn" class="btn-secondary">停止点击</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>状态信息</h3>
+            <div class="status-row">
+                <div class="status-item">
+                    <span class="status-label">状态:</span>
+                    <span id="status" class="status-value">未开始</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">点击:</span>
+                    <span id="clickCount" class="status-value">0</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">运行:</span>
+                    <span id="runTime" class="status-value">0秒</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>高级选项</h3>
+            <div class="checkbox-row">
+                <label class="checkbox-item">
+                    <input type="checkbox" id="randomInterval"> 随机间隔
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="scrollToElement"> 滚动到元素
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="highlightElement"> 高亮显示
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('调试版popup加载中...');
+        
+        // 简单的调试脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM加载完成');
+            
+            // 检查所有时间选择器
+            const selectors = ['startHour', 'startMinute', 'endHour', 'endMinute'];
+            selectors.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    console.log(`${id}: 找到，选项数量: ${element.options.length}`);
+                } else {
+                    console.error(`${id}: 未找到`);
+                }
+            });
+            
+            // 测试时间控制切换
+            const enableTimeControl = document.getElementById('enableTimeControl');
+            const timeControlPanel = document.getElementById('timeControlPanel');
+            
+            if (enableTimeControl && timeControlPanel) {
+                enableTimeControl.addEventListener('change', function() {
+                    timeControlPanel.style.display = this.checked ? 'block' : 'none';
+                    console.log('时间控制面板:', this.checked ? '显示' : '隐藏');
+                });
+            }
+            
+            // 测试当前时间按钮
+            const setCurrentTime = document.getElementById('setCurrentTime');
+            if (setCurrentTime) {
+                setCurrentTime.addEventListener('click', function() {
+                    const now = new Date();
+                    const hour = now.getHours().toString().padStart(2, '0');
+                    const minute = Math.round(now.getMinutes() / 5) * 5;
+                    const minuteStr = minute.toString().padStart(2, '0');
+                    
+                    document.getElementById('startHour').value = hour;
+                    document.getElementById('startMinute').value = minuteStr;
+                    
+                    console.log('设置当前时间:', hour + ':' + minuteStr);
+                });
+            }
+            
+            console.log('调试版初始化完成');
+        });
+    </script>
+</body>
+</html>

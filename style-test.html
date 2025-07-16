@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极蜂插件样式测试</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="time-picker-fix.js"></script>
+    <style>
+        body {
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .comparison {
+            display: flex;
+            gap: 20px;
+        }
+        .before, .after {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .before {
+            background: #ffebee;
+        }
+        .after {
+            background: #e8f5e8;
+        }
+    </style>
+</head>
+<body>
+    <h1>极蜂自动点击器 - 样式测试页面</h1>
+    
+    <div class="test-container">
+        <h2>时间输入框样式测试</h2>
+        <div class="section">
+            <div class="input-row">
+                <div class="input-group half">
+                    <label for="testStartTime">开始时间:</label>
+                    <input type="time" id="testStartTime" value="14:30">
+                    <button class="btn-mini">当前时间</button>
+                </div>
+                <div class="input-group half">
+                    <label for="testDuration">运行时长:</label>
+                    <select id="testDuration">
+                        <option value="0">手动设置</option>
+                        <option value="1">1分钟</option>
+                        <option value="5" selected>5分钟</option>
+                        <option value="10">10分钟</option>
+                        <option value="30">30分钟</option>
+                        <option value="60">1小时</option>
+                        <option value="120">2小时</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group half">
+                    <label for="testEndTime">结束时间:</label>
+                    <input type="time" id="testEndTime" value="14:35">
+                </div>
+                <div class="input-group half">
+                    <label for="testCrossDay">跨天设置:</label>
+                    <select id="testCrossDay">
+                        <option value="0">今天</option>
+                        <option value="1">明天</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>其他输入框样式测试</h2>
+        <div class="section">
+            <div class="input-row">
+                <div class="input-group half">
+                    <label for="testInterval">间隔时间 (毫秒):</label>
+                    <input type="number" id="testInterval" value="1000">
+                </div>
+                <div class="input-group half">
+                    <label for="testMaxClicks">最大点击次数:</label>
+                    <input type="number" id="testMaxClicks" value="0" placeholder="0=无限制">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>按钮样式测试</h2>
+        <div class="button-row">
+            <button class="btn-primary">开始点击</button>
+            <button class="btn-secondary">停止点击</button>
+            <button class="btn-test">测试选择器</button>
+            <button class="btn-refresh">刷新</button>
+            <button class="btn-mini">当前时间</button>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>状态显示测试</h2>
+        <div class="status-row">
+            <div class="status-item">
+                <span class="status-label">状态:</span>
+                <span class="status-value">运行中</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">点击:</span>
+                <span class="status-value">156</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">运行:</span>
+                <span class="status-value">2分30秒</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>时间信息提示测试</h2>
+        <div class="time-info">
+            <small>ℹ️ 运行时长: 5分钟</small>
+        </div>
+        <div class="time-info warning">
+            <small>⚠️ 请设置开始时间和结束时间</small>
+        </div>
+        <div class="time-info error">
+            <small>❌ 结束时间已过期，请重新设置</small>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>复选框样式测试</h2>
+        <div class="checkbox-row">
+            <label class="checkbox-item">
+                <input type="checkbox" checked> 随机间隔
+            </label>
+            <label class="checkbox-item">
+                <input type="checkbox"> 滚动到元素
+            </label>
+            <label class="checkbox-item">
+                <input type="checkbox" checked> 高亮显示
+            </label>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>样式问题检查清单</h2>
+        <div style="font-size: 12px; line-height: 1.6;">
+            <h3>时间输入框检查项：</h3>
+            <ul>
+                <li>✅ 字体大小是否合适（应该是8-9px）</li>
+                <li>✅ <strong>时间选择器弹出面板字体是否正常</strong></li>
+                <li>✅ <strong>时间选择器弹出面板边框是否细化</strong></li>
+                <li>✅ 小时和分钟字段是否清晰可见</li>
+                <li>✅ 下拉箭头大小是否合适</li>
+                <li>✅ 整体高度是否与其他输入框一致</li>
+            </ul>
+
+            <h3>时间选择器弹出面板测试：</h3>
+            <ol>
+                <li><strong>点击时间输入框</strong> - 观察弹出的时间选择器</li>
+                <li><strong>检查字体大小</strong> - 时间数字应该较小且清晰</li>
+                <li><strong>检查边框粗细</strong> - 边框应该较细，不会很粗</li>
+                <li><strong>检查整体缩放</strong> - 整个面板应该适当缩小</li>
+                <li><strong>测试选择功能</strong> - 确保可以正常选择时间</li>
+            </ol>
+            
+            <h3>下拉框检查项：</h3>
+            <ul>
+                <li>✅ 选项文字是否完整显示</li>
+                <li>✅ 选项间距是否合适</li>
+                <li>✅ 下拉框高度是否正常</li>
+                <li>✅ 字体大小是否一致</li>
+            </ul>
+            
+            <h3>整体布局检查：</h3>
+            <ul>
+                <li>✅ 两列布局是否对齐</li>
+                <li>✅ 标签和输入框间距是否合适</li>
+                <li>✅ 按钮大小是否一致</li>
+                <li>✅ 整体视觉是否协调</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 测试时间输入框的交互
+        document.getElementById('testStartTime').addEventListener('change', function() {
+            console.log('开始时间变更:', this.value);
+        });
+        
+        document.getElementById('testDuration').addEventListener('change', function() {
+            console.log('运行时长变更:', this.value);
+            
+            // 模拟自动计算结束时间
+            const startTime = document.getElementById('testStartTime').value;
+            if (startTime && this.value > 0) {
+                const [hour, minute] = startTime.split(':').map(Number);
+                const startDate = new Date();
+                startDate.setHours(hour, minute, 0, 0);
+                
+                const endDate = new Date(startDate.getTime() + parseInt(this.value) * 60 * 1000);
+                const endTime = endDate.getHours().toString().padStart(2, '0') + ':' + 
+                               endDate.getMinutes().toString().padStart(2, '0');
+                
+                document.getElementById('testEndTime').value = endTime;
+                console.log('自动计算结束时间:', endTime);
+            }
+        });
+        
+        // 设置当前时间
+        document.querySelector('.btn-mini').addEventListener('click', function() {
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                              now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('testStartTime').value = timeString;
+            console.log('设置当前时间:', timeString);
+        });
+    </script>
+</body>
+</html>

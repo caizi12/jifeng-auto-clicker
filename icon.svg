@@ -1,0 +1,17 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="64" cy="64" r="60" fill="#4CAF50" stroke="#2E7D32" stroke-width="4"/>
+  
+  <!-- 鼠标指针图标 -->
+  <path d="M45 35 L45 85 L55 75 L65 95 L75 90 L65 70 L80 70 Z" fill="white" stroke="#333" stroke-width="2"/>
+  
+  <!-- 点击效果圆圈 -->
+  <circle cx="75" cy="45" r="8" fill="none" stroke="white" stroke-width="3" opacity="0.8"/>
+  <circle cx="75" cy="45" r="12" fill="none" stroke="white" stroke-width="2" opacity="0.6"/>
+  <circle cx="75" cy="45" r="16" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
+  
+  <!-- 时钟图标表示定时 -->
+  <circle cx="85" cy="85" r="15" fill="white" stroke="#333" stroke-width="2"/>
+  <line x1="85" y1="85" x2="85" y2="75" stroke="#333" stroke-width="2"/>
+  <line x1="85" y1="85" x2="92" y2="85" stroke="#333" stroke-width="2"/>
+</svg>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>极蜂自动点击器V0.1</h2>
+
+        <div class="section">
+            <h3>点击目标</h3>
+            <div class="input-group">
+                <label for="selector">CSS选择器/XPath:</label>
+                <input type="text" id="selector" placeholder="例如: button, #myButton, //button[@class='submit']">
+                <div class="button-row">
+                    <button id="selectElement">选择目标</button>
+                    <button id="testSelector" class="btn-test">测试选择器</button>
+                    <button id="refreshSelection" class="btn-refresh">刷新</button>
+                </div>
+            </div>
+            <div class="selected-info" id="selectedInfo" style="display: none;">
+                <span>已选择: </span><span id="selectedText"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>刷新&点击 设置</h3>
+            <div class="input-row">
+                <div class="input-group half">
+                    <label for="interval">点击间隔 (毫秒):</label>
+                    <input type="number" id="interval" value="1000" min="1" max="60000">
+                </div>
+                <div class="input-group half">
+                    <label for="maxClicks">最大点击次数:</label>
+                    <input type="number" id="maxClicks" value="0" min="0" placeholder="0=无限制">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group half">
+                    <label for="refreshInterval">自动刷新间隔 (毫秒):</label>
+                    <input type="number" id="refreshInterval" value="0" min="0" placeholder="0=不刷新">
+                </div>
+                <div class="input-group half">
+                    <label for="refreshDelay">刷新后延迟 (毫秒):</label>
+                    <input type="number" id="refreshDelay" value="2000" min="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>时间控制</h3>
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" id="enableTimeControl" checked> 启用时间控制
+                </label>
+            </div>
+            <div id="timeControlPanel" style="display: block;">
+                <div class="input-row">
+                    <div class="input-group half">
+                        <label for="startTime">开始时间:</label>
+                        <input type="time" id="startTime">
+                        <button id="setCurrentTime" class="btn-mini">当前时间</button>
+                    </div>
+                    <div class="input-group half">
+                        <label for="quickDuration">运行时长:</label>
+                        <select id="quickDuration">
+                            <option value="0">手动设置</option>
+                            <option value="1">1分钟</option>
+                            <option value="2">2分钟</option>
+                            <option value="3">3分钟</option>
+                            <option value="4">4分钟</option>
+                            <option value="5">5分钟</option>
+                            <option value="6">6分钟</option>
+                            <option value="7">7分钟</option>
+                            <option value="8">8分钟</option>
+                            <option value="9">9分钟</option>
+                            <option value="10">10分钟</option>
+                            <option value="15">15分钟</option>
+                            <option value="20">20分钟</option>
+                            <option value="30">30分钟</option>
+                            <option value="60">1小时</option>
+                            <option value="120">2小时</option>
+                            <option value="180">3小时</option>
+                            <option value="240">4小时</option>
+                            <option value="300">5小时</option>
+                            <option value="600">10小时</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group half">
+                        <label for="endTime">结束时间:</label>
+                        <input type="time" id="endTime">
+                    </div>
+                    <div class="input-group half">
+                        <label for="crossDay">跨天设置:</label>
+                        <select id="crossDay">
+                            <option value="0">今天</option>
+                            <option value="1">明天</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="time-info" id="timeInfo" style="display: none;">
+                    <small id="timeInfoText"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>控制</h3>
+            <div class="button-group">
+                <button id="startBtn" class="btn-primary">开始点击</button>
+                <button id="stopBtn" class="btn-secondary" disabled>停止点击</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>状态信息</h3>
+            <div class="status-row">
+                <div class="status-item">
+                    <span class="status-label">状态:</span>
+                    <span id="status" class="status-value">未开始</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">点击:</span>
+                    <span id="clickCount" class="status-value">0</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">运行:</span>
+                    <span id="runTime" class="status-value">0秒</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>高级选项</h3>
+            <div class="checkbox-row">
+                <label class="checkbox-item">
+                    <input type="checkbox" id="randomInterval"> 随机间隔
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="scrollToElement"> 滚动到元素
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="highlightElement"> 高亮显示
+                </label>
+            </div>
+        </div>
+    </div>
+    <script src="time-picker-fix.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

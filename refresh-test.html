@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自动刷新功能测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background: #1976D2;
+        }
+        .status {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #2196F3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .counter {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .time-display {
+            font-family: monospace;
+            font-size: 18px;
+            color: #666;
+        }
+        .log {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>极蜂自动点击器 - 自动刷新功能测试</h1>
+    
+    <div class="test-section">
+        <h2>页面状态信息</h2>
+        <div class="status">
+            <div>页面加载时间: <span class="time-display" id="loadTime">--</span></div>
+            <div>页面刷新次数: <span class="counter" id="refreshCount">0</span></div>
+            <div>当前时间: <span class="time-display" id="currentTime">--:--:--</span></div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>测试按钮区域</h2>
+        <p>这些按钮用于测试自动点击功能：</p>
+        
+        <button class="test-button" id="testBtn1">测试按钮 1</button>
+        <button class="test-button" id="testBtn2">测试按钮 2</button>
+        <button class="test-button" id="testBtn3">测试按钮 3</button>
+        <button class="test-button" id="testBtn4">测试按钮 4</button>
+        
+        <div class="status">
+            <div>总点击次数: <span class="counter" id="totalClicks">0</span></div>
+            <div>按钮1点击: <span id="btn1Clicks">0</span></div>
+            <div>按钮2点击: <span id="btn2Clicks">0</span></div>
+            <div>按钮3点击: <span id="btn3Clicks">0</span></div>
+            <div>按钮4点击: <span id="btn4Clicks">0</span></div>
+        </div>
+        
+        <button class="test-button" onclick="resetCounters()" style="background: #ff9800;">重置计数器</button>
+    </div>
+
+    <div class="test-section">
+        <h2>自动刷新测试说明</h2>
+        <div class="info">
+            <h3>测试步骤：</h3>
+            <ol>
+                <li><strong>设置时间控制</strong>：勾选"启用时间控制"，设置开始和结束时间</li>
+                <li><strong>设置自动刷新</strong>：在"自动刷新间隔"中输入毫秒数（如10000表示10秒）</li>
+                <li><strong>设置刷新延迟</strong>：在"刷新后延迟"中设置等待时间（如2000表示2秒）</li>
+                <li><strong>选择目标元素</strong>：使用插件选择上面的测试按钮</li>
+                <li><strong>开始测试</strong>：点击"开始点击"按钮</li>
+                <li><strong>观察结果</strong>：页面应该按设定间隔自动刷新，刷新后继续点击</li>
+            </ol>
+            
+            <h3>预期行为：</h3>
+            <ul>
+                <li>页面会按照设定的间隔时间自动刷新</li>
+                <li>每次刷新后，"页面刷新次数"会增加</li>
+                <li>刷新后等待设定的延迟时间，然后继续自动点击</li>
+                <li>点击计数器会持续增加（除非页面刷新重置了计数）</li>
+                <li>在设定的结束时间到达时，自动停止</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>推荐测试设置</h2>
+        <div class="info">
+            <h3>快速测试（10秒刷新）：</h3>
+            <ul>
+                <li>自动刷新间隔：10000 毫秒</li>
+                <li>刷新后延迟：2000 毫秒</li>
+                <li>点击间隔：1000 毫秒</li>
+                <li>结束时间：当前时间 + 1分钟</li>
+            </ul>
+            
+            <h3>中等测试（30秒刷新）：</h3>
+            <ul>
+                <li>自动刷新间隔：30000 毫秒</li>
+                <li>刷新后延迟：3000 毫秒</li>
+                <li>点击间隔：1000 毫秒</li>
+                <li>结束时间：当前时间 + 3分钟</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>操作日志</h2>
+        <div class="log" id="logArea">
+            页面加载完成，等待测试开始...
+        </div>
+        <button class="test-button" onclick="clearLog()" style="background: #9e9e9e;">清除日志</button>
+    </div>
+
+    <script>
+        // 页面状态
+        let refreshCount = 0;
+        let totalClicks = 0;
+        let buttonClicks = {
+            btn1: 0,
+            btn2: 0,
+            btn3: 0,
+            btn4: 0
+        };
+
+        // 初始化页面
+        function initPage() {
+            const loadTime = new Date();
+            document.getElementById('loadTime').textContent = loadTime.toLocaleTimeString();
+            
+            // 从localStorage恢复刷新次数
+            const savedRefreshCount = localStorage.getItem('refreshCount');
+            if (savedRefreshCount) {
+                refreshCount = parseInt(savedRefreshCount);
+                document.getElementById('refreshCount').textContent = refreshCount;
+            }
+            
+            // 增加刷新次数
+            refreshCount++;
+            localStorage.setItem('refreshCount', refreshCount.toString());
+            document.getElementById('refreshCount').textContent = refreshCount;
+            
+            addLog(`页面第 ${refreshCount} 次加载完成 - ${loadTime.toLocaleTimeString()}`);
+        }
+
+        // 更新当前时间
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+
+        // 设置按钮点击事件
+        function setupButtons() {
+            const buttons = [
+                { id: 'testBtn1', key: 'btn1', name: '按钮1' },
+                { id: 'testBtn2', key: 'btn2', name: '按钮2' },
+                { id: 'testBtn3', key: 'btn3', name: '按钮3' },
+                { id: 'testBtn4', key: 'btn4', name: '按钮4' }
+            ];
+
+            buttons.forEach(btn => {
+                document.getElementById(btn.id).addEventListener('click', function() {
+                    totalClicks++;
+                    buttonClicks[btn.key]++;
+                    
+                    document.getElementById('totalClicks').textContent = totalClicks;
+                    document.getElementById(btn.key + 'Clicks').textContent = buttonClicks[btn.key];
+                    
+                    // 视觉反馈
+                    this.style.backgroundColor = '#4CAF50';
+                    setTimeout(() => {
+                        this.style.backgroundColor = '#2196F3';
+                    }, 200);
+                    
+                    addLog(`${btn.name} 被点击 - 总计: ${totalClicks} 次`);
+                });
+            });
+        }
+
+        // 重置计数器
+        function resetCounters() {
+            totalClicks = 0;
+            buttonClicks = { btn1: 0, btn2: 0, btn3: 0, btn4: 0 };
+            
+            document.getElementById('totalClicks').textContent = '0';
+            document.getElementById('btn1Clicks').textContent = '0';
+            document.getElementById('btn2Clicks').textContent = '0';
+            document.getElementById('btn3Clicks').textContent = '0';
+            document.getElementById('btn4Clicks').textContent = '0';
+            
+            addLog('计数器已重置');
+        }
+
+        // 添加日志
+        function addLog(message) {
+            const logArea = document.getElementById('logArea');
+            const time = new Date().toLocaleTimeString();
+            const logEntry = `[${time}] ${message}\n`;
+            logArea.textContent += logEntry;
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        // 清除日志
+        function clearLog() {
+            document.getElementById('logArea').textContent = '日志已清除...\n';
+        }
+
+        // 页面卸载前保存状态
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('refreshCount', refreshCount.toString());
+        });
+
+        // 初始化
+        initPage();
+        setupButtons();
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+
+        // 监听页面可见性变化
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                addLog('页面变为可见状态');
+            } else {
+                addLog('页面变为隐藏状态');
+            }
+        });
+
+        addLog('测试页面初始化完成，可以开始测试自动刷新功能');
+    </script>
+</body>
+</html>

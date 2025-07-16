@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>图标生成器</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .icon-preview { margin: 10px; display: inline-block; text-align: center; }
+        canvas { border: 1px solid #ccc; margin: 5px; }
+        button { padding: 10px 20px; margin: 5px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+<h1>Chrome插件图标生成器</h1>
+<p>点击下面的按钮生成并下载图标文件：</p>
+
+<div id="icons"></div>
+<button onclick="generateAllIcons()">生成所有图标</button>
+
+<script>
+    function createIcon(size) {
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+
+        // 背景圆形
+        ctx.fillStyle = '#4CAF50';
+        ctx.beginPath();
+        ctx.arc(size/2, size/2, size/2 - 2, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // 边框
+        ctx.strokeStyle = '#2E7D32';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // 鼠标指针
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+
+        const scale = size / 128;
+        ctx.beginPath();
+        ctx.moveTo(45 * scale, 35 * scale);
+        ctx.lineTo(45 * scale, 85 * scale);
+        ctx.lineTo(55 * scale, 75 * scale);
+        ctx.lineTo(65 * scale, 95 * scale);
+        ctx.lineTo(75 * scale, 90 * scale);
+        ctx.lineTo(65 * scale, 70 * scale);
+        ctx.lineTo(80 * scale, 70 * scale);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // 点击效果圆圈
+        ctx.strokeStyle = 'white';
+        ctx.fillStyle = 'transparent';
+
+        // 第一个圆圈
+        ctx.lineWidth = 2 * scale;
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.arc(75 * scale, 45 * scale, 8 * scale, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // 第二个圆圈
+        ctx.lineWidth = 1.5 * scale;
+        ctx.globalAlpha = 0.6;
+        ctx.beginPath();
+        ctx.arc(75 * scale, 45 * scale, 12 * scale, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // 第三个圆圈
+        ctx.lineWidth = 1 * scale;
+        ctx.globalAlpha = 0.4;
+        ctx.beginPath();
+        ctx.arc(75 * scale, 45 * scale, 16 * scale, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // 重置透明度
+        ctx.globalAlpha = 1;
+
+        // 时钟图标
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1.5 * scale;
+
+        // 时钟背景
+        ctx.beginPath();
+        ctx.arc(85 * scale, 85 * scale, 15 * scale, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+
+        // 时钟指针
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1.5 * scale;
+        ctx.beginPath();
+        ctx.moveTo(85 * scale, 85 * scale);
+        ctx.lineTo(85 * scale, 75 * scale);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(85 * scale, 85 * scale);
+        ctx.lineTo(92 * scale, 85 * scale);
+        ctx.stroke();
+
+        return canvas;
+    }
+
+    function downloadCanvas(canvas, filename) {
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = canvas.toDataURL();
+        link.click();
+    }
+
+    function generateAllIcons() {
+        const sizes = [16, 32, 48, 128];
+        const iconsDiv = document.getElementById('icons');
+        iconsDiv.innerHTML = '';
+
+        sizes.forEach(size => {
+            const canvas = createIcon(size);
+
+            const div = document.createElement('div');
+            div.className = 'icon-preview';
+
+            const label = document.createElement('div');
+            label.textContent = `${size}x${size}`;
+
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = `下载 icon${size}.png`;
+            downloadBtn.onclick = () => downloadCanvas(canvas, `icon${size}.png`);
+
+            div.appendChild(label);
+            div.appendChild(canvas);
+            div.appendChild(downloadBtn);
+            iconsDiv.appendChild(div);
+        });
+    }
+
+    // 页面加载时自动生成图标
+    window.onload = generateAllIcons;
+</script>
+</body>
+</html>
